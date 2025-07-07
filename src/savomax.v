@@ -21,8 +21,8 @@
 module savomax(clk_in, csync_in, csync_out, vsync_in);
 
   parameter CLK_FREQ = 250_000;
-  parameter NTSC_PAL_TRESHOLD = 18;
-  localparam TRESHOLD_COUNTER = (CLK_FREQ / 1000) * NTSC_PAL_TRESHOLD;
+  parameter NTSC_PAL_THRESHOLD = 18;
+  localparam THRESHOLD_COUNTER = (CLK_FREQ / 1000) * NTSC_PAL_THRESHOLD;
 
   input clk_in;
   input csync_in;
@@ -34,11 +34,11 @@ module savomax(clk_in, csync_in, csync_out, vsync_in);
   reg [31:0] clk_counter = 0;
 
   // Internal register to store the previous state of vsync
-  reg [0:0] vsync_prev;
-  reg [0:0] vsync_sampled;
+  reg vsync_prev;
+  reg vsync_sampled;
 
   // PAL/NTSC format validation flag
-  reg [0:0] format_valid;
+  reg format_valid;
   reg [2:0] format_type;
   reg [31:0] vsync_prev_counter;
   reg [31:0] vsync_period;
@@ -67,7 +67,7 @@ module savomax(clk_in, csync_in, csync_out, vsync_in);
       if (vsync_sampled) begin
 
         // VSYNC falling edge detectection
-        if (vsync_prev && !vsync_in) begin
+        if (vsync_prev == `TRUE && vsync_in == `FALSE) begin
 
           if (vsync_prev_counter == 0) begin
               vsync_prev_counter <= clk_counter;
@@ -87,7 +87,7 @@ module savomax(clk_in, csync_in, csync_out, vsync_in);
     // determine format type
     end else if (format_type == `FORMAT_UNKNOWN) begin
 
-      format_type <= (vsync_period > TRESHOLD_COUNTER) ? `FORMAT_PAL : `FORMAT_NTSC;
+      format_type <= (vsync_period > THRESHOLD_COUNTER) ? `FORMAT_PAL : `FORMAT_NTSC;
       format_valid <= `TRUE;
 
     // log detected format_type and end the simulation
