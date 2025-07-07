@@ -42,12 +42,14 @@ module savomax(clk_in, csync_in, csync_out, vsync_in);
   reg [2:0] format_type;
   reg [31:0] vsync_prev_counter;
   reg [31:0] vsync_period;
+  reg [0:0] vsync_period_valid;
 
 
 
   initial begin
     vsync_sampled = `FALSE;
-
+    vsync_period_valid = `FALSE;  
+    
     format_valid = `FALSE;
     format_type = `FORMAT_UNKNOWN;
 
@@ -60,7 +62,7 @@ module savomax(clk_in, csync_in, csync_out, vsync_in);
   always @(posedge clk_in) begin
 
     // determine vsync period
-    if (!format_valid) begin
+    if (!vsync_period_valid) begin
 
       if (vsync_sampled) begin
 
@@ -72,7 +74,7 @@ module savomax(clk_in, csync_in, csync_out, vsync_in);
           end else begin
               vsync_period <= clk_counter - vsync_prev_counter;
               vsync_prev_counter <= clk_counter;
-              format_valid <= `TRUE;
+              vsync_period_valid <= `TRUE;
           end
 
         end
@@ -86,6 +88,7 @@ module savomax(clk_in, csync_in, csync_out, vsync_in);
     end else if (format_type == `FORMAT_UNKNOWN) begin
 
       format_type <= (vsync_period > TRESHOLD_COUNTER) ? `FORMAT_PAL : `FORMAT_NTSC;
+      format_valid <= `TRUE;
 
     // log detected format_type and end the simulation
     end else begin
