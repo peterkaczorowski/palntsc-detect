@@ -42,7 +42,7 @@ module savomax(clk_in, csync_in, csync_out, vsync_in);
   reg [2:0] format_type;
   reg [31:0] vsync_prev_counter;
   reg [31:0] vsync_period;
-  reg [0:0] vsync_period_valid;
+  reg vsync_period_valid;
 
 
 
