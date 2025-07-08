@@ -8,7 +8,7 @@
 `timescale 10ns / 10ns
 `include "Consts.vh"
 
-module FormatDetector4 (clk_in, rst, vsync_in, format_valid, format_type);
+module FormatDetector5 (clk_in, rst, vsync_in, format_valid, format_type);
 
   input wire  clk_in;
   input wire  rst;
