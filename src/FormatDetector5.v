@@ -55,4 +55,3 @@ module FormatDetector5 (clk_in, rst, vsync_in, format_valid, format_type);
   end
 
 endmodule
-
