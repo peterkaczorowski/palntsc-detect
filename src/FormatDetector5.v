@@ -5,7 +5,8 @@
 // Author       : Piotr D. Kaczorowski
 // =============================================================================
 
-`timescale 10ns / 10ns
+`timescale 10ns / 10ns  
+
 `include "Consts.vh"
 
 module FormatDetector5 (clk_in, rst, vsync_in, format_valid, format_type);
@@ -16,11 +17,11 @@ module FormatDetector5 (clk_in, rst, vsync_in, format_valid, format_type);
   output reg  format_valid;
   output reg  format_type;
 
-  localparam THRESHOLD_COUNTER  = `CLK_FREQ * `NTSC_PAL_THRESHOLD_MS / 1000;
+  localparam  THRESHOLD_COUNTER  = `CLK_FREQ * `NTSC_PAL_THRESHOLD_MS / 1000;
 
-  reg vsync_prev;
-  reg [20:0] vsync_counter;
-  reg [1:0] sample_count;
+  reg         vsync_prev;
+  reg [20:0]  vsync_counter;
+  reg [1:0]   sample_count;
 
 
   always @(posedge clk_in) begin
