@@ -1,6 +1,6 @@
 // =============================================================================
 // Project      : SAVO MAX
-// File         : FormatDetector3.v
+// File         : FormatDetector5.v
 // Description  : Simple NTSC/PAL detector based on VSYNC period
 // Author       : Piotr D. Kaczorowski
 // =============================================================================
